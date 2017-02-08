@@ -1,0 +1,268 @@
+<!doctype html>
+
+<html>
+<head>
+	<title> Swarthmore Eventspace </title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel='stylesheet prefetch' href='https://gitcdn.xyz/repo/angular/bower-material/v0.10.1-rc4/angular-material.css'>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/dist/dist/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<div class="font_preload" style="opacity: 0">
+		<span style="font-family: 'Lora', serif;"></span>
+		<span style="font-family: 'myfontface#2font-family', Arial, sans-serif;"></span>
+	</div>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<!-- Google analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-91397551-1', 'auto');
+		ga('send', 'pageview');
+
+	</script>
+</head>
+<body>
+	<div role="banner" class="header-div">
+		<img src="CollegeLogoGarnet.svg" class="banner-img left"/>
+		<h1 id="trademark1" class="main-title right">Swarthmore Eventspace </h1>
+		<md-button id = "addBtn" class="btn">
+			<img class="png-icon" src="ic_add_location_48px.svg" alt="Submit" style="width: 24px; height: 24px;">
+		</md-button>
+		<!-- <p1 id="trademark2" class="right">At Swarthmore College</p1> -->
+	</div>
+	<div id="leftSide" ng-app="MyApp" class="gridListdemoBasicUsage" ng-controller="AppCtrl as appCtrl">
+		<div id="leftTitle">
+			<ul id="navtabs" class="nav nav-tabs" role="tablist">
+				<li role="presentation" id="tab0" class="tab active"><a href="#Now" aria-controls="Now" role="tab" data-toggle="tab">Now</a></li>
+				<li role="presentation" id="tab1" class="tab"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today</a></li>
+				<li role="presentation" id="tab2" class="tab"><a href="#tomorrow" aria-controls="tomorrow" role="tab" data-toggle="tab">Tomorrow</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="Now">
+					<div id="cards">
+						<md-content id="cardPadding" class="md-padding" layout-xs="column" layout="column">
+							<div flex-xs flex-gt-xs="50" layout="column">
+								<div ng-hide="loadedEvents"><md-card>
+									<md-card-content>
+										<span class="md-title"><center>Loading...</center></span> <br>
+										<p1><center>Did you know: Bees are dying at an alarming rate?<center></p1> <br>
+										<!-- <b>Attending: </b><p1>{{event.count}} people are attending!</p1> <br> -->
+										<!-- <b>lat/long: </b><p1> {{event.lat}} and {{event.lng}} </p1> -->
+									</md-card-content>
+								</md-card></div>
+								<div ng-show="noCurrentEvents"><md-card>
+									<md-card-content>
+										<span class="md-title">There are no events happening right now! :(</span> <br> <br>
+										<p1><center>Why not add an event yourself?</center></p1> <br>
+										
+										<!-- <b>Attending: </b><p1>{{event.count}} people are attending!</p1> <br> -->
+										<!-- <b>lat/long: </b><p1> {{event.lat}} and {{event.lng}} </p1> -->
+									</md-card-content>
+								</md-card></div>
+								<div id="cardlist" ng-hide="noCurrentEvents" class="ng-hide" class="parent" layout="column" ng-repeat="event in eventsVar0" flex>
+									<md-card ng-click="cardClicked(event.lat, event.lng, $index)">
+										<md-card-content>
+											<span class="md-title">{{event.name}}</span> <br> <br>
+											<b>Date: </b><p1>{{event.date}}</p1> <br>
+											<b>Time: </b><p1>{{event.start_time}} - {{event.end_time}}</p1> <br>
+											<!-- <b>End: </b><p1>{{event.end_time}}</p1> <br> -->
+											<b>Location: </b><p1>{{event.location}}</p1> <br>
+											<!-- <b>Attending: </b><p1>{{event.count}} people are attending!</p1> <br> -->
+											<!-- <b>lat/long: </b><p1> {{event.lat}} and {{event.lng}} </p1> -->
+										</md-card-content>
+										<div class="md-actions" id="cardActions" layout="row" layout-align="end center">
+											<svg class="heart" id="{{event.id}}" ng-style="myStyles" ng-click="attendingEvent(event.id, $index)" value="Like!" viewBox="0 0 32 29.6">
+											  <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+												c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+											</svg>
+											<p style="float: right; padding-right: 40px; color: #B8B8B8"><span ng-bind="eventCount[event.id]"></span></p>
+										</div>
+									</md-card>
+								</div>
+							</div>
+						</md-content>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="today">
+					<div id="cards">
+						<md-content id="cardPadding" class="md-padding" layout-xs="column" layout="column">
+							<div flex-xs flex-gt-xs="50" layout="column">
+								<div id="cardlist" class="parent" layout="column" ng-repeat="event in eventsVar1" flex>
+									<md-card ng-click="cardClicked(event.lat, event.lng, $index)">
+										<md-card-content>
+											<span class="md-title">{{event.name}}</span> <br> <br>
+											<b>Date: </b><p1>{{event.date}}</p1> <br>
+											<b>Time: </b><p1>{{event.start_time}} - {{event.end_time}}</p1> <br>
+											<b>Location: </b><p1>{{event.location}}</p1> <br>
+										</md-card-content>
+										<div class="md-actions" id="cardActions" layout="row" layout-align="end center">
+											<svg class="heart" id="{{event.id}}" ng-style="myStyles" ng-click="attendingEvent(event.id, $index)" value="Like!" viewBox="0 0 32 29.6">
+											  <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+												c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+											</svg>
+											<p style="float: right; padding-right: 40px; color: #B8B8B8"><span ng-bind="eventCount[event.id]"></span></p>
+										</div>
+									</md-card>
+								</div>
+							</div>
+						</md-content>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="tomorrow">
+					<div id="cards">
+						<md-content id="cardPadding" class="md-padding" layout-xs="column" layout="column">
+							<div flex-xs flex-gt-xs="50" layout="column">
+								<div id="cardlist" class="parent" layout="column" ng-repeat="event in eventsVar2" flex>
+									<md-card ng-click="cardClicked(event.lat, event.lng, $index)">
+										<md-card-content>
+											<span class="md-title">{{event.name}}</span> <br> <br>
+											<b>Date: </b><p1>{{event.date}}</p1> <br>
+											<b>Time: </b><p1>{{event.start_time}} - {{event.end_time}}</p1> <br>
+											<!-- <b>End: </b><p1>{{event.end_time}}</p1> <br> -->
+											<b>Location: </b><p1>{{event.location}}</p1> <br>
+											<!-- <b>lat/long: </b><p1> {{event.lat}} and {{event.lng}} </p1> -->
+										</md-card-content>
+										<div class="md-actions" id="cardActions" layout="row" layout-align="end center">
+											<svg class="heart" id="{{event.id}}" ng-style="myStyles" ng-click="attendingEvent(event.id, $index)" value="Like!" viewBox="0 0 32 29.6">
+											  <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+												c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+											</svg>
+											<p style="float: right; padding-right: 40px; color: #B8B8B8"><span ng-bind="eventCount[event.id]"></span></p>
+										</div>
+									</md-card>
+								</div>
+							</div>
+						</md-content>
+					</did>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content touchMoveAllowed">
+			<span class="close">&times;</span>
+			<p>
+				<form id= "form">
+					<h1>Submit an Event for Approval</h1><br>
+					<div class="form-group">
+						<label for="example-text-input">Event Name</label>
+						<input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="What is this event called?">
+						<small id="emailHelp" class="form-text text-muted"></small>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Location</label>
+						<input type="text" name="loc" class="form-control" id="exampleInputPassword1" placeholder="Where is this event going to be?">
+					</div>
+					<div class="form-group row">
+						<label for="example-date-input" class="col-xs-2 col-form-label">Date</label>
+						<div class="col-xs-10">
+							<input class="form-control" name="date" type="date" value="2017-02-01" id="example-date-input">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="example-time-input" class="col-xs-2 col-form-label">Starts</label>
+						<div class="col-xs-10">
+							<input class="form-control" name="start_time" type="time" value="12:00:00" id="example-time-input">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="example-time-input" class="col-xs-2 col-form-label">Ends</label>
+						<div class="col-xs-10">
+							<input class="form-control" name="end_time" type="time" value="12:00:00" id="example-time-input">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="exampleTextarea">Description</label>
+						<textarea type="form-control" name="desc" class="form-control" id="exampleTextarea" rows="4" placeholder="Describe the event!"></textarea>
+					</div>
+					<button type="submit" id="sbmt" class="btn btn-primary">Submit</button>
+				</form>
+			</p>
+		</div>
+	</div>
+	<div id="rightSide">
+		<!-- Google Maps -->
+		<div id="map"></div>
+		<script>
+
+		</script>
+	</div>
+
+
+	<!-- angularfire dependencies -->
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+	<!-- establish database connection -->
+
+
+	<!-- firebase dependencies -->
+	<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+
+	<!-- Google maps dependencies -->
+
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js'></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.min.js'></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js'></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-aria.min.js'></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-messages.min.js'></script>
+	<!-- gitcdn for angular-material.js is problematic - often goes down --> <!-- download and use that -->
+	<script src='https://gitcdn.xyz/repo/angular/bower-material/v0.10.1-rc4/angular-material.js'></script>
+	<script src="js/angular-material.js"></script>
+
+	<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/assets-cache.js'></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Google Maps -->
+
+	<!-- <script>
+	 $('body').bootstrapMaterialDesign();
+	</script> -->
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script src="https://cdn.rawgit.com/HubSpot/tether/v1.3.4/dist/js/tether.min.js"></script>
+	<script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/dist/dist/bootstrap-material-design.iife.min.js"></script>
+	<script>
+		$('body').bootstrapMaterialDesign();
+	</script>
+
+	<!-- was index.js -->
+
+	<script>
+	// Initialize the Firebase SDK
+	var config = {
+		apiKey: "AIzaSyBEzv8ctGlRR-_e60ZvHyWBu8kHnya3-fE",
+		authDomain: "swatevents-2341b.firebaseapp.com",
+		databaseURL: "https://swatevents-2341b.firebaseio.com",
+		storageBucket: "swatevents-2341b.appspot.com",
+		messagingSenderId: "409278336825"
+	};
+	firebase.initializeApp(config);
+
+
+</script>
+<script src="js/forms.js"></script>
+<script src="js/cards.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjriwynstavLLKVhZWTZgG7MNuGA9cKHc&callback=initMap"></script>
+<!-- <script>
+ $('body').bootstrapMaterialDesign();
+</script> -->
+</body>
+</html>

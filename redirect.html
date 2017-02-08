@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!-- Made with late nights and coffee by Jason Jin '20, Bunn Buraparat '20, Won Chung '18, and William Lee '20-->
+<!-- redirects to the mobile site or the desktop site depending on screensize -->
+<!-- Rename this file as index.html and place in var/www/html/ of apache along with MobileSite and DesktopSite folders -->
+
+<html>
+<head>
+  <title> EventSpace </title>
+</head>
+<body>
+  <script type="text/javascript">
+    if(screen.width < 700) {
+      window.location = "./m/index.html";
+    }else{
+     window.location	= "./d/index.html";
+   }
+ </script>
+</body>
+</html>
